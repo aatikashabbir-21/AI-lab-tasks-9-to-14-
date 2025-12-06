@@ -1,0 +1,24 @@
+from flask import Flask, render_template, request
+import pickle
+
+app = Flask(__name__)
+
+# Assume a trained model exists
+# opr_svm_model = <your trained SVM model here>
+
+@app.route('/')
+def home():
+    return render_template('save_model.html')
+
+@app.route('/save_model', methods=['POST'])
+def save_model():
+    try:
+        with open("opr_svm_model.pkl", "wb") as f:
+            pickle.dump(opr_svm_model, f)
+        message = "Model saved successfully as 'opr_svm_model.pkl'"
+    except Exception as e:
+        message = f"Error: {e}"
+    return render_template('save_model.html', message=message)
+
+if __name__ == '__main__':
+    app.run(debug=True)
